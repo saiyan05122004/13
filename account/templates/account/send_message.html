@@ -1,0 +1,14 @@
+<!-- social/templates/account/send_message.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Отправить сообщение {{ recipient.username }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="thread_id" value="{{ thread.id }}">
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </form>
+  <a href="{% url 'account:thread_detail' thread.id %}">Вернуться к переписке</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Авторизация пользователя</h2>
+
+    <form action="" method="post" class="col-md-6" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" style="background-image: linear-gradient(to right, #C3BA9B, #C3BA9B);" value="Войти">
+    </form>
+
+{% endblock %}

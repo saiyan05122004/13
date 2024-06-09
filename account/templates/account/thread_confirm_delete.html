@@ -1,0 +1,17 @@
+<!-- social/templates/account/thread_confirm_delete.html -->
+
+{% extends 'base_account.html' %}
+
+{% block title %}Удалить переписку{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Удалить переписку</h2>
+    <p>Вы уверены, что хотите удалить эту переписку?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a href="{% url 'account:thread_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

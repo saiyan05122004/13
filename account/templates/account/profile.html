@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-center">{{ user.username }}</h2>
+
+    {% if request.user.id == user.id %}
+        <a href="{% url 'home:post_create' %}" class="btn btn-primary" style="background-image: linear-gradient(to right, #7E6D53, #7E6D53);">Создать пост</a>
+        <a href="{% url 'account:edit_user' %}" class="btn btn-info" style="background-image: linear-gradient(to right, #C3BA9B, #C3BA9B);">Редактировать профиль</a>
+    {% endif %}
+
+    {% if request.user.id != user.id and not is_following %}
+        <a class="btn btn-primary" href="{% url 'account:user_follow' user.id %}">Подписаться</a>
+    {% elif request.user.id != user.id and is_following %}
+        <a class="btn btn-primary" href="{% url 'account:user_unfollow' user.id %}">Отписаться</a>
+    {% endif %}
+
+    {% if not is_own_profile %}
+    <a href="{% url 'account:thread_detail' pk=thread.pk %}" class="btn btn-warning">Написать сообщение</a>
+    {% endif %}
+
+    <div class="card">
+        {% for post in posts %}
+            <a href="{{ post.get_absolute_url }}" class="card-body">{{ post.body|truncatewords:8 }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}

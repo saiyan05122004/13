@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ganz-Социальная сеть</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #F4F4E9; /* Измененный цвет фона для всей страницы */
+        }
+        .jumbotron {
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #F4F4E9; /* Измененный цвет фона для .jumbotron */
+        }
+
+/* thread_detail */
+
+.message-box {
+    max-width: 70%;
+    border-radius: 10px;
+}
+
+.sent {
+    background-color: #007bff;
+    color: #fff;
+    margin-left: auto;
+}
+
+.received {
+    background-color: #ffffff;
+    color: #212529;
+    margin-right: auto;
+}
+
+.message-content {
+    border-radius: 10px;
+}
+
+.messages {
+    overflow-y: scroll;
+    max-height: 700px;
+}
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Общий стиль для контейнера списка диалогов */
+.container {
+    margin-top: 50px;
+}
+
+/* Стиль для каждого элемента списка диалогов */
+.list-group-item {
+    background-color: #f8f9fa;
+    color: #212529;
+    border: none;
+}
+
+/* Стиль для заголовка списка диалогов */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Стиль для дополнительной информации (метаданных) в каждом элементе списка */
+.text-muted {
+    font-size: 14px;
+}
+
+/* Стиль для кнопки удаления */
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Стиль для формы удаления */
+.ml-2 {
+    margin-left: 10px;
+}
+
+
+    </style>
+</head>
+<body>
+
+{% include 'inc/navbar.html' %}
+<div class="jumbotron">
+    {% if '/account/thread/' not in request.path %}
+        <!-- Вывод сообщений здесь -->
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-{{ msg.tags }}">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    {% block content %} {% endblock %}
+</div>
+
+</body>
+</html>
+

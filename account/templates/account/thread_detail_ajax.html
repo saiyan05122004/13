@@ -1,0 +1,17 @@
+<!-- social/templates/account/thread_detail_ajax.html -->
+<div class="border rounded p-3 bg-light">
+    <h3>Переписка с {{ other_user.username }}</h3>
+    <div class="messages mb-3">
+        {% for message in messages %}
+            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <p>{{ message.content }}</p>
+                <small class="text-muted">{{ message.created|date:"d M Y H:i" }}</small>
+            </div>
+        {% endfor %}
+    </div>
+    <form method="post" class="d-flex">
+        {% csrf_token %}
+        {{ form.content|add_class:"form-control mr-2" }}
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>

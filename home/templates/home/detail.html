@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if request.user.id == post.user.id %}
+        <a href="{% url 'home:post_delete' post.id %}" class="btn btn-danger">Удалить</a>
+        <a href="{% url 'home:post_update' post.id %}" style="background-image: linear-gradient(to right, #C3BA9B, #C3BA9B);" class="btn btn-info">Обновить</a>
+    {% endif %}
+
+    <p><a href="{% url 'account:user_profile' post.user.id %}">{{ post.user.username }}</a> - {{ post.updated|date:"Y-M" }}</p>
+    <p>{{ post.body }}</p><hr/>
+
+    {% if user_has_liked %}
+        <a href="{% url 'home:post_like' post.id %}" style="background-image: linear-gradient(to right, #4E7779, #4E7779);" class="btn btn-secondary col-md-2">Убрать лайк ({{ post.likes_count }})</a>
+    {% else %}
+        <a href="{% url 'home:post_like' post.id %}" style="background-image: linear-gradient(to right, #4E7779, #4E7779);" class="btn btn-primary col-md-2">Лайков {{ post.likes_count }}</a>
+    {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" style="background-image: linear-gradient(to right, #C3BA9B, #C3BA9B);" value="Отправить">
+    </form> <br/>
+
+    {% if not request.user.is_authenticated %}
+    <p class="alert alert-danger">Только зарегистрированные пользователи могут комментировать</p>
+{% endif %}
+
+    {% for comment in comments %}
+        <div class="card bg-dark text-white" style="background-image: linear-gradient(to right, #7E6D53, #7E6D53);">
+            <p class="card-header">{{ comment.user }} | {{ comment.created|timesince }}</p>
+            <p class="card-body">{{ comment.body }}</p>
+
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'home:add_reply' post.id comment.id %}" method="post" style="display:none;">
+                    {% csrf_token %}
+                    {{ reply_form.as_p }}
+                    <input type="submit" value="Отправить">
+                </form>
+            {% endif %}
+
+            {% with replies=comment.rcomments.all %}
+                {% for reply in replies %}
+                    <p class="bg-primary p-3 m-2">{{ reply.user }} <br/> {{ reply.body }}</p>
+                {% endfor %}
+            {% endwith %}
+        </div><br/>
+    {% empty %}
+        <p>Комментариев еще нет! Стань первым</p>
+    {% endfor %}
+{% endblock %}

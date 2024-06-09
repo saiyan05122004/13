@@ -1,0 +1,32 @@
+<!-- social/templates/account/thread_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Диалоги{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Диалоги</h2>
+            <div class="list-group">
+                {% for item in thread_data %}
+                <div class="d-flex w-100 justify-content-between align-items-center border-bottom py-2">
+                    <a href="{% url 'account:thread_detail' item.thread.id %}" class="list-group-item list-group-item-action flex-grow-1 border-0">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <h5 class="mb-1">{{ item.other_user.username }}</h5>
+                            <small class="text-muted">{{ item.thread.messages.last.created|date:"d M Y H:i" }}</small>
+                        </div>
+                        <p class="mb-1 text-truncate text-muted">{{ item.thread.messages.last.content }}</p>
+                    </a>
+                    <form action="{% url 'account:thread_delete' item.thread.id %}" method="post" class="ml-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

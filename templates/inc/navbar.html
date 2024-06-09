@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-image: linear-gradient(to right, #4E7779, #90C7CA);">
+  <div class="container-fluid">
+    <div class="navbar-nav">
+      <a class="nav-link active" href="{% url 'home:home' %}">GANZ</a>
+      {% if request.user.is_authenticated %}
+      <a class="nav-link active" href="{% url 'account:user_profile' request.user.id %}">Профиль</a>
+      <a class="nav-link active" href="{% url 'account:thread_list' %}">Сообщения</a>
+      {% endif %}
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="navbar-nav ml-auto">
+      <a class="nav-link active" href="{% url 'account:user_logout' %}">Выйти</a>
+    </div>
+    {% else %}
+    <div class="navbar-nav ml-auto">
+      <a class="nav-link active" href="{% url 'account:user_register' %}">Зарегистрироваться</a>
+      <a class="nav-link active" href="{% url 'account:user_login' %}">Войти</a>
+    </div>
+    {% endif %}
+  </div>
+</nav>
